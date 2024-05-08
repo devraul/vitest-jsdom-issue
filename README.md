@@ -24,3 +24,17 @@ AssertionError: expected Uint8Array[ 72, 101, 108, 108, …(-97) ] to be an inst
       8|   });
       9| });
 ```
+
+## Repro in isolation
+
+While trying to understand the problem, I got the necessary parts of vitest jsdom-environment code and isolate away from vitest.
+
+> Check the `local-repro-vitest-jsdom-setup.js` file.
+
+The problem is being caused by the `populateGlobal` function, which does some crazy stuff to the list of global APIs, including the `Uint8Array`.
+
+If you comment out the `Uint8Array`, and run the code, you'll see no problem.
+
+```bash
+npm run test:vitest-setup
+```
